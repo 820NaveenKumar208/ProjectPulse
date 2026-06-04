@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import { authRouter } from './authRoutes.js';
+
 const router = Router();
 
 router.get('/status', (_request, response) => {
@@ -10,5 +12,7 @@ router.get('/status', (_request, response) => {
     },
   });
 });
+
+router.use('/auth', authRouter);
 
 export { router as apiRouter };
