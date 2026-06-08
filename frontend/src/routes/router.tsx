@@ -33,6 +33,16 @@ const EditProjectPage = lazy(async () => {
   return { default: module.EditProjectPage };
 });
 
+const CreateMilestonePage = lazy(async () => {
+  const module = await import('../pages/CreateMilestonePage');
+  return { default: module.CreateMilestonePage };
+});
+
+const MilestoneDetailPage = lazy(async () => {
+  const module = await import('../pages/MilestoneDetailPage');
+  return { default: module.MilestoneDetailPage };
+});
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -124,6 +134,34 @@ export const router = createBrowserRouter([
                 }
               >
                 <EditProjectPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects/:projectId/milestones/new',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <CreateMilestonePage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects/:projectId/milestones/:milestoneId',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <MilestoneDetailPage />
               </Suspense>
             ),
           },

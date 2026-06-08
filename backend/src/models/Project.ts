@@ -1,4 +1,4 @@
-import { Schema, model, type HydratedDocument, Types } from 'mongoose';
+import { Schema, model, type HydratedDocument } from 'mongoose';
 
 export type ProjectStatus = 'planning' | 'active' | 'paused' | 'completed' | 'archived';
 export type HealthStatus = 'excellent' | 'good' | 'at_risk' | 'critical';

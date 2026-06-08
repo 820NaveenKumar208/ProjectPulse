@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ProjectForm } from '../components/ProjectForm';
 import { useAuth } from '../hooks/useAuth';
-import { projectAPI, type CreateProjectInput } from '../lib/projectApi';
+import { projectAPI, type CreateProjectInput, type UpdateProjectInput } from '../lib/projectApi';
 
 export function CreateProjectPage() {
   const navigate = useNavigate();
@@ -13,14 +13,14 @@ export function CreateProjectPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  async function handleSubmit(data: CreateProjectInput) {
+  async function handleSubmit(data: CreateProjectInput | UpdateProjectInput) {
     if (!accessToken) return;
 
     setIsLoading(true);
     setError('');
 
     try {
-      const project = await projectAPI.createProject(accessToken, data);
+      const project = await projectAPI.createProject(accessToken, data as CreateProjectInput);
       navigate(`/projects/${project.id}`, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create project');

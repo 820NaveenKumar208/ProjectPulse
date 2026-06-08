@@ -17,6 +17,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useAuth } from '../hooks/useAuth';
 import { projectAPI, type Project } from '../lib/projectApi';
+import { milestoneAPI, type Milestone } from '../lib/milestoneApi';
+import { MilestoneTimeline } from '../components/MilestoneTimeline';
 
 const statusColors: Record<string, { bg: string; text: string; label: string }> = {
   planning: { bg: 'bg-slate-100', text: 'text-slate-700', label: 'Planning' },
@@ -38,7 +40,9 @@ export function ProjectDetailPage() {
   const { projectId } = useParams();
   const { user, logout, accessToken } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [loading, setLoading] = useState(true);
+  const [milestonesLoading, setMilestonesLoading] = useState(false);
   const [error, setError] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
@@ -50,7 +54,14 @@ export function ProjectDetailPage() {
 
     projectAPI
       .getProject(accessToken, projectId)
-      .then(setProject)
+      .then((proj) => {
+        setProject(proj);
+        // Fetch milestones for this project
+        return milestoneAPI.listMilestones(accessToken, projectId);
+      })
+      .then((response) => {
+        setMilestones(response.milestones);
+      })
       .catch((err) => {
         setError(err instanceof Error ? err.message : 'Failed to load project');
       })
@@ -76,6 +87,30 @@ export function ProjectDetailPage() {
       navigate('/projects', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete project');
+    }
+  };
+
+  const handleCompleteMilestone = async (milestone: Milestone) => {
+    if (!accessToken) return;
+
+    try {
+      const updated = await milestoneAPI.completeMilestone(accessToken, milestone.id);
+      setMilestones((prev) =>
+        prev.map((m) => (m.id === milestone.id ? updated : m))
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to complete milestone');
+    }
+  };
+
+  const handleDeleteMilestone = async (milestone: Milestone) => {
+    if (!accessToken) return;
+
+    try {
+      await milestoneAPI.deleteMilestone(accessToken, milestone.id);
+      setMilestones((prev) => prev.filter((m) => m.id !== milestone.id));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete milestone');
     }
   };
 
@@ -316,13 +351,29 @@ export function ProjectDetailPage() {
                 {isManager && (
                   <button
                     className="rounded-lg bg-pulse-primary px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+                    onClick={() => navigate(`/projects/${project.id}/milestones/new`)}
                     type="button"
                   >
                     Add Milestone
                   </button>
                 )}
               </div>
-              <p className="mt-2 text-slate-600">Milestones tracking coming soon</p>
+              <div className="mt-6">
+                {milestonesLoading ? (
+                  <div className="flex justify-center py-8">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </div>
+                ) : milestones.length === 0 ? (
+                  <p className="text-slate-600">No milestones yet. {isManager && 'Create one to get started!'}</p>
+                ) : (
+                  <MilestoneTimeline
+                    milestones={milestones}
+                    onComplete={handleCompleteMilestone}
+                    onDelete={handleDeleteMilestone}
+                    isManager={isManager}
+                  />
+                )}
+              </div>
             </div>
 
             {/* Activity Feed */}

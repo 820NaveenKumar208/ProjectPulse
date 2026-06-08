@@ -1,4 +1,3 @@
-import type { RequestHandler } from 'express';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 
 /**
@@ -18,7 +17,6 @@ const API_BASE = 'http://localhost:5000/api/v1';
 describe('Project Management API', () => {
   let managerAccessToken: string;
   let clientAccessToken: string;
-  let managerId: string;
   let clientId: string;
   let projectId: string;
 
@@ -43,7 +41,6 @@ describe('Project Management API', () => {
       };
     };
     managerAccessToken = managerData.data.accessToken;
-    managerId = managerData.data.user.id;
 
     // Register client
     const clientRes = await fetch(`${API_BASE}/auth/register`, {
