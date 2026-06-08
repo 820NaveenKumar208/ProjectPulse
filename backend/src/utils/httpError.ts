@@ -23,6 +23,10 @@ export function forbidden(message = 'You do not have permission to access this r
   return new HttpError(403, 'FORBIDDEN', message);
 }
 
+export function notFound(message = 'Resource not found.') {
+  return new HttpError(404, 'NOT_FOUND', message);
+}
+
 export function conflict(message: string) {
   return new HttpError(409, 'CONFLICT', message);
 }

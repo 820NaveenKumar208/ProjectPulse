@@ -13,6 +13,26 @@ const DashboardPage = lazy(async () => {
   return { default: module.DashboardPage };
 });
 
+const ProjectsPage = lazy(async () => {
+  const module = await import('../pages/ProjectsPage');
+  return { default: module.ProjectsPage };
+});
+
+const CreateProjectPage = lazy(async () => {
+  const module = await import('../pages/CreateProjectPage');
+  return { default: module.CreateProjectPage };
+});
+
+const ProjectDetailPage = lazy(async () => {
+  const module = await import('../pages/ProjectDetailPage');
+  return { default: module.ProjectDetailPage };
+});
+
+const EditProjectPage = lazy(async () => {
+  const module = await import('../pages/EditProjectPage');
+  return { default: module.EditProjectPage };
+});
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -48,6 +68,62 @@ export const router = createBrowserRouter([
                 }
               >
                 <DashboardPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <ProjectsPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects/new',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <CreateProjectPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects/:projectId',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <ProjectDetailPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects/:projectId/edit',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <EditProjectPage />
               </Suspense>
             ),
           },

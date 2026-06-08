@@ -59,13 +59,13 @@ export function DashboardPage() {
               <LayoutDashboard className="h-4 w-4" />
               Overview
             </a>
-            <button
+            <a
               className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-50 hover:text-pulse-text"
-              type="button"
+              href="/projects"
             >
               <FolderKanban className="h-4 w-4" />
               Projects
-            </button>
+            </a>
             <button
               className="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-50 hover:text-pulse-text"
               type="button"
