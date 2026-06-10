@@ -43,6 +43,11 @@ const MilestoneDetailPage = lazy(async () => {
   return { default: module.MilestoneDetailPage };
 });
 
+const SharePage = lazy(async () => {
+  const module = await import('../pages/SharePage');
+  return { default: module.SharePage };
+});
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -175,6 +180,21 @@ export const router = createBrowserRouter([
             element: <AdminCheckPage />,
           },
         ],
+      },
+      {
+        // Public share page — no auth required
+        path: 'share/:token',
+        element: (
+          <Suspense
+            fallback={
+              <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+              </main>
+            }
+          >
+            <SharePage />
+          </Suspense>
+        ),
       },
     ],
   },

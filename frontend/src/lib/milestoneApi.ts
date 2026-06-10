@@ -9,6 +9,8 @@ export type MilestoneStatus =
   | 'completed'
   | 'delayed';
 
+export type ApprovalStatus = 'pending_approval' | 'approved' | 'changes_requested';
+
 export type Milestone = {
   id: string;
   projectId: string;
@@ -20,6 +22,11 @@ export type Milestone = {
   order: number;
   createdBy: string;
   updatedBy: string;
+  approvalStatus?: ApprovalStatus;
+  approvalRequestedAt?: string;
+  approvalRequestedBy?: string;
+  lastApprovedAt?: string;
+  approvedBy?: string;
   createdAt: string;
   updatedAt: string;
 };

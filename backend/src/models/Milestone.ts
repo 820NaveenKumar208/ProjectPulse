@@ -9,6 +9,8 @@ export type MilestoneStatus =
   | 'completed'
   | 'delayed';
 
+export type ApprovalStatus = 'pending_approval' | 'approved' | 'changes_requested';
+
 export type MilestoneEntity = {
   projectId: string;
   title: string;
@@ -19,6 +21,11 @@ export type MilestoneEntity = {
   order: number;
   createdBy: string;
   updatedBy: string;
+  approvalStatus?: ApprovalStatus; // pending_approval, approved, changes_requested
+  approvalRequestedAt?: Date;
+  approvalRequestedBy?: string; // manager who requested approval
+  lastApprovedAt?: Date;
+  approvedBy?: string; // client who approved
   createdAt: Date;
   updatedAt: Date;
 };
@@ -84,6 +91,28 @@ const milestoneSchema = new Schema<MilestoneEntity>(
       type: String,
       required: true,
     },
+    approvalStatus: {
+      type: String,
+      enum: ['pending_approval', 'approved', 'changes_requested'],
+      default: undefined,
+    },
+    approvalRequestedAt: {
+      type: Date,
+      default: undefined,
+      index: true,
+    },
+    approvalRequestedBy: {
+      type: String,
+      default: undefined,
+    },
+    lastApprovedAt: {
+      type: Date,
+      default: undefined,
+    },
+    approvedBy: {
+      type: String,
+      default: undefined,
+    },
   },
   {
     timestamps: true,
@@ -94,6 +123,8 @@ const milestoneSchema = new Schema<MilestoneEntity>(
 milestoneSchema.index({ projectId: 1, order: 1 });
 milestoneSchema.index({ projectId: 1, status: 1 });
 milestoneSchema.index({ projectId: 1, dueDate: 1 });
+milestoneSchema.index({ projectId: 1, approvalStatus: 1 });
 milestoneSchema.index({ dueDate: 1 });
+milestoneSchema.index({ approvalRequestedAt: 1 });
 
 export const MilestoneModel = model<MilestoneEntity>('Milestone', milestoneSchema);

@@ -16,6 +16,10 @@ export type UpdateProjectInput = {
   healthScore?: number;
 };
 
+export type EnableShareInput = {
+  expiresAt?: string; // ISO date
+};
+
 export type ProjectResponse = {
   id: string;
   name: string;
@@ -28,6 +32,9 @@ export type ProjectResponse = {
   progress: number;
   healthScore: number;
   healthStatus: HealthStatus;
+  shareToken?: string;
+  shareEnabled: boolean;
+  shareExpiresAt?: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -38,4 +45,27 @@ export type ProjectListResponse = {
   page: number;
   limit: number;
   pages: number;
+};
+
+export type PublicProjectView = {
+  id: string;
+  name: string;
+  description: string;
+  status: ProjectStatus;
+  progress: number;
+  healthScore: number;
+  healthStatus: HealthStatus;
+  startDate: string;
+  endDate: string;
+  milestones: Array<{
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+    dueDate: string;
+    completionPercentage: number;
+    order: number;
+    approvalStatus?: string;
+    lastApprovedAt?: string;
+  }>;
 };

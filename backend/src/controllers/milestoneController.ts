@@ -18,6 +18,11 @@ function toMilestoneResponse(doc: any): MilestoneResponse {
     order: doc.order,
     createdBy: doc.createdBy,
     updatedBy: doc.updatedBy,
+    approvalStatus: doc.approvalStatus,
+    approvalRequestedAt: doc.approvalRequestedAt?.toISOString(),
+    approvalRequestedBy: doc.approvalRequestedBy,
+    lastApprovedAt: doc.lastApprovedAt?.toISOString(),
+    approvedBy: doc.approvedBy,
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };

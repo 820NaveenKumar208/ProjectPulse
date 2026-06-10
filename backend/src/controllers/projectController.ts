@@ -18,6 +18,9 @@ function toProjectResponse(doc: any): ProjectResponse {
     progress: doc.progress,
     healthScore: doc.healthScore,
     healthStatus: doc.healthStatus,
+    shareToken: doc.shareToken,
+    shareEnabled: doc.shareEnabled ?? false,
+    shareExpiresAt: doc.shareExpiresAt?.toISOString(),
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };

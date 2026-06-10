@@ -15,6 +15,9 @@ export type Project = {
   progress: number;
   healthScore: number;
   healthStatus: HealthStatus;
+  shareToken?: string;
+  shareEnabled: boolean;
+  shareExpiresAt?: string;
   createdAt: string;
   updatedAt: string;
 };

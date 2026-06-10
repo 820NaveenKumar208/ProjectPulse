@@ -11,6 +11,9 @@ import {
   LogOut,
   Trash2,
   Archive,
+  CheckCircle2,
+  XCircle,
+  Clock,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,7 +21,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { projectAPI, type Project } from '../lib/projectApi';
 import { milestoneAPI, type Milestone } from '../lib/milestoneApi';
+import { approvalAPI, type ApprovalRecord } from '../lib/approvalApi';
 import { MilestoneTimeline } from '../components/MilestoneTimeline';
+import { ShareLinkManager } from '../components/ShareLinkManager';
 
 const statusColors: Record<string, { bg: string; text: string; label: string }> = {
   planning: { bg: 'bg-slate-100', text: 'text-slate-700', label: 'Planning' },
@@ -41,6 +46,7 @@ export function ProjectDetailPage() {
   const { user, logout, accessToken } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
   const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [approvalHistory, setApprovalHistory] = useState<ApprovalRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [milestonesLoading, setMilestonesLoading] = useState(false);
   const [error, setError] = useState('');
@@ -56,11 +62,21 @@ export function ProjectDetailPage() {
       .getProject(accessToken, projectId)
       .then((proj) => {
         setProject(proj);
-        // Fetch milestones for this project
         return milestoneAPI.listMilestones(accessToken, projectId);
       })
       .then((response) => {
         setMilestones(response.milestones);
+        // Load approval history for each milestone to build activity feed
+        return Promise.all(
+          response.milestones.map((m) =>
+            approvalAPI.getApprovalHistory(accessToken, m.id).catch(() => ({ records: [], total: 0 }))
+          )
+        );
+      })
+      .then((histories) => {
+        const allRecords = histories.flatMap((h) => h.records);
+        allRecords.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        setApprovalHistory(allRecords);
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : 'Failed to load project');
@@ -376,11 +392,79 @@ export function ProjectDetailPage() {
               </div>
             </div>
 
-            {/* Activity Feed */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-8">
-              <h2 className="text-xl font-bold">Activity Feed</h2>
-              <p className="mt-2 text-slate-600">Recent activities will appear here</p>
+            {/* Activity Feed — Approval Events */}
+            <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-8">
+              <h2 className="mb-4 text-xl font-bold">Activity</h2>
+              {approvalHistory.length === 0 ? (
+                <p className="text-slate-500 text-sm">No approval activity yet.</p>
+              ) : (
+                <div className="relative space-y-4 pl-6">
+                  <div className="absolute left-2 top-0 bottom-0 w-0.5 rounded-full bg-slate-100" />
+                  {approvalHistory.slice(0, 10).map((record) => {
+                    const ms = milestones.find((m) => m.id === record.milestoneId);
+                    const isPending = record.status === 'pending';
+                    const isApproved = record.status === 'approved';
+                    return (
+                      <motion.div
+                        key={record.id}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="relative"
+                      >
+                        <span
+                          className={`absolute -left-4 top-1.5 h-3 w-3 rounded-full border-2 border-white ring-2 ${
+                            isPending ? 'bg-amber-400 ring-amber-100'
+                            : isApproved ? 'bg-emerald-400 ring-emerald-100'
+                            : 'bg-red-400 ring-red-100'
+                          }`}
+                        />
+                        <div className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3">
+                          <div className="flex items-center gap-2">
+                            {isPending ? (
+                              <Clock className="h-4 w-4 text-amber-500" />
+                            ) : isApproved ? (
+                              <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                            ) : (
+                              <XCircle className="h-4 w-4 text-red-500" />
+                            )}
+                            <span className="text-sm font-medium text-slate-700">
+                              {isPending ? 'Approval Requested'
+                                : isApproved ? 'Milestone Approved'
+                                : 'Changes Requested'}
+                            </span>
+                            {ms && (
+                              <button
+                                className="ml-auto text-xs text-pulse-primary hover:underline"
+                                onClick={() => navigate(`/projects/${project.id}/milestones/${ms.id}`)}
+                                type="button"
+                              >
+                                {ms.title} →
+                              </button>
+                            )}
+                          </div>
+                          {record.comment && (
+                            <p className="mt-1 text-xs text-slate-500">{record.comment}</p>
+                          )}
+                          <p className="mt-1 text-xs text-slate-400">
+                            {new Date(record.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
+
+            {/* Share Link Manager — Manager only */}
+            {isManager && (
+              <div className="mb-8">
+                <ShareLinkManager
+                  project={project}
+                  onProjectUpdate={(updated) => setProject(updated)}
+                />
+              </div>
+            )}
           </motion.div>
         )}
       </div>

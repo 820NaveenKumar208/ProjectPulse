@@ -14,6 +14,9 @@ export type ProjectEntity = {
   progress: number; // 0-100
   healthScore: number; // 0-100
   healthStatus: HealthStatus;
+  shareToken?: string;
+  shareEnabled: boolean;
+  shareExpiresAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -76,6 +79,20 @@ const projectSchema = new Schema<ProjectEntity>(
       type: String,
       enum: ['excellent', 'good', 'at_risk', 'critical'],
       default: 'good',
+    },
+    shareToken: {
+      type: String,
+      default: undefined,
+      index: true,
+      sparse: true,
+    },
+    shareEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    shareExpiresAt: {
+      type: Date,
+      default: undefined,
     },
   },
   {
