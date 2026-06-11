@@ -70,7 +70,7 @@ export const generateReport: RequestHandler = async (request, response) => {
     overallHealthScore: project.healthScore,
   });
 
-  await NotificationService.notifyReportGenerated(report, project, authRequest.user.id).catch(console.error);
+  await NotificationService.notifyReportGenerated(report, project, user.id).catch(console.error);
 
   response.status(201).json({
     data: {

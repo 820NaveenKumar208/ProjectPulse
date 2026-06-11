@@ -36,10 +36,10 @@ export async function setup() {
 
   // ── 4. Boot the Express app (connects its own mongoose instance) ────────
   //    Import app lazily so env vars are set first.
-  const { app } = await import('../app.js');
+  const { connectToDatabase } = await import('../config/database.js');
+  await connectToDatabase();
 
-  // Connect the app's own mongoose to the same memory URI
-  // (the app uses the same global mongoose, so it's already connected)
+  const { app } = await import('../app.js');
 
   httpServer = createServer(app);
 

@@ -16,6 +16,17 @@ export const errorHandler: ErrorRequestHandler = (error, _request, response, nex
     return;
   }
 
+  // Handle Mongoose CastError (invalid ObjectIds) globally as 404 Not Found
+  if (error?.name === 'CastError') {
+    response.status(404).json({
+      error: {
+        code: 'NOT_FOUND',
+        message: 'Resource not found.',
+      },
+    });
+    return;
+  }
+
   console.error(error);
 
   response.status(500).json({

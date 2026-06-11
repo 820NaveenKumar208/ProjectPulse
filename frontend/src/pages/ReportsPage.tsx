@@ -18,7 +18,7 @@ import jsPDF from 'jspdf';
 import { format } from 'date-fns';
 
 import { reportApi, type Report } from '../lib/reportApi';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { Header } from '../components/Header';
 
 export function ReportsPage() {

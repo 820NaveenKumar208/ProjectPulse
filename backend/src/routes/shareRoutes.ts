@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import * as shareController from '../controllers/shareController.js';
-import { requireAuth } from '../middlewares/authMiddleware.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 const router = Router({ mergeParams: true });

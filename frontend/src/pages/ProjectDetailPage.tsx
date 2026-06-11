@@ -336,7 +336,7 @@ export function ProjectDetailPage() {
                 )}
               </div>
               <div className="mt-6">
-                {milestonesLoading ? (
+                {loading ? (
                   <div className="flex justify-center py-8">
                     <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
                   </div>

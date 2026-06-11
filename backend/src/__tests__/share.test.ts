@@ -13,7 +13,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
  * - Authorization: only the project manager can manage share links
  */
 
-const API_BASE = 'http://localhost:5000/api/v1';
+const API_BASE = 'http://127.0.0.1:5000/api/v1';
 
 describe('Public Share Links', () => {
   let managerAccessToken: string;

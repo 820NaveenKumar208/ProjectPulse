@@ -1,8 +1,6 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import mongoose from 'mongoose';
-import { ProjectModel } from '../models/Project';
+import { describe, it, expect, beforeAll } from 'vitest';
 
-const API_BASE = 'http://localhost:5000/api/v1';
+const API_BASE = 'http://127.0.0.1:5000/api/v1';
 
 describe('AI Weekly Reports API', () => {
   let managerAccessToken: string;

@@ -1,8 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import mongoose from 'mongoose';
-import { NotificationModel } from '../models/Notification';
-import { MilestoneModel } from '../models/Milestone';
-import { ProjectModel } from '../models/Project';
+import { NotificationModel } from '../models/Notification.js';
+import { MilestoneModel } from '../models/Milestone.js';
+import { ProjectModel } from '../models/Project.js';
 
 const API_BASE = 'http://127.0.0.1:5000/api/v1';
 

@@ -12,11 +12,12 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
  * - Authorization checks
  */
 
-const API_BASE = 'http://localhost:5000/api/v1';
+const API_BASE = 'http://127.0.0.1:5000/api/v1';
 
 describe('Project Management API', () => {
   let managerAccessToken: string;
   let clientAccessToken: string;
+  let unassignedClientAccessToken: string;
   let clientId: string;
   let projectId: string;
 
@@ -63,6 +64,26 @@ describe('Project Management API', () => {
     };
     clientAccessToken = clientData.data.accessToken;
     clientId = clientData.data.user.id;
+
+    // Register second client (unassigned client)
+    const unassignedClientRes = await fetch(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Unassigned Client Test',
+        email: `client-unassigned-${Date.now()}@test.com`,
+        password: 'Password123',
+        role: 'client',
+        organizationId: 'test-org',
+      }),
+    });
+
+    const unassignedClientData = (await unassignedClientRes.json()) as {
+      data: {
+        accessToken: string;
+      };
+    };
+    unassignedClientAccessToken = unassignedClientData.data.accessToken;
   });
 
   describe('CREATE PROJECT', () => {
@@ -178,7 +199,7 @@ describe('Project Management API', () => {
     it('Client cannot view project they are not assigned to', async () => {
       const res = await fetch(`${API_BASE}/projects/${projectId}`, {
         headers: {
-          Authorization: `Bearer ${clientAccessToken}`,
+          Authorization: `Bearer ${unassignedClientAccessToken}`,
         },
       });
 

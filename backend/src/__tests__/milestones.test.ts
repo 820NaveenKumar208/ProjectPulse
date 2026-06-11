@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import { MilestoneModel } from '../models/Milestone.js';
 
 describe('Milestone Management', () => {
@@ -35,7 +35,7 @@ describe('Milestone Management', () => {
       try {
         await MilestoneModel.create({
           projectId: mockProjectId,
-          title: '', // Empty title
+          title: 'ab', // Shorter than minlength: 3 to trigger minlength error rather than required error
           dueDate: new Date('2024-12-31'),
           status: 'not_started',
           completionPercentage: 0,
@@ -45,7 +45,7 @@ describe('Milestone Management', () => {
         });
         expect.fail('Should have thrown validation error');
       } catch (error: any) {
-        expect(error.message).toContain('minlength');
+        expect(error.message).toContain('minimum allowed length');
       }
     });
 
@@ -366,28 +366,39 @@ describe('Milestone Management', () => {
   });
 
   describe('Milestone Indexes', () => {
+    beforeAll(async () => {
+      await MilestoneModel.ensureIndexes();
+    });
+
+    const checkIndex = (indexes: any, expectedKeys: Record<string, number>): boolean => {
+      return Object.values(indexes).some((idx: any) => {
+        // Format 1: { key: { projectId: 1, order: 1 } }
+        if (idx && idx.key) {
+          return Object.keys(expectedKeys).every(k => idx.key[k] === expectedKeys[k]) &&
+                 Object.keys(idx.key).length === Object.keys(expectedKeys).length;
+        }
+        // Format 2: [["projectId", 1], ["order", 1]]
+        if (Array.isArray(idx)) {
+          return idx.length === Object.keys(expectedKeys).length &&
+                 Object.keys(expectedKeys).every((k, i) => idx[i] && idx[i][0] === k && idx[i][1] === expectedKeys[k]);
+        }
+        return false;
+      });
+    };
+
     it('should have compound index on projectId and order', async () => {
       const indexes = await MilestoneModel.collection.getIndexes();
-      const hasIndex = Object.values(indexes).some(
-        (idx: any) => idx.key && idx.key.projectId === 1 && idx.key.order === 1
-      );
-      expect(hasIndex).toBe(true);
+      expect(checkIndex(indexes, { projectId: 1, order: 1 })).toBe(true);
     });
 
     it('should have compound index on projectId and status', async () => {
       const indexes = await MilestoneModel.collection.getIndexes();
-      const hasIndex = Object.values(indexes).some(
-        (idx: any) => idx.key && idx.key.projectId === 1 && idx.key.status === 1
-      );
-      expect(hasIndex).toBe(true);
+      expect(checkIndex(indexes, { projectId: 1, status: 1 })).toBe(true);
     });
 
     it('should have index on dueDate', async () => {
       const indexes = await MilestoneModel.collection.getIndexes();
-      const hasIndex = Object.values(indexes).some(
-        (idx: any) => idx.key && idx.key.dueDate === 1
-      );
-      expect(hasIndex).toBe(true);
+      expect(checkIndex(indexes, { dueDate: 1 })).toBe(true);
     });
   });
 });

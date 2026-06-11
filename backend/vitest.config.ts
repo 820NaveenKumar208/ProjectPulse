@@ -6,6 +6,8 @@ export default defineConfig({
     globals: true,
     globalSetup: './src/__tests__/setup.ts',
     setupFiles: ['./src/__tests__/workerSetup.ts'],
+    include: ['src/__tests__/**/*.test.ts'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/.{idea,git,cache,output,temp}/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
