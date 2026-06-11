@@ -3,6 +3,7 @@ import type { RequestHandler } from 'express';
 import { MilestoneModel } from '../models/Milestone.js';
 import { ProjectModel } from '../models/Project.js';
 import { ApprovalModel } from '../models/Approval.js';
+import { NotificationService } from '../services/notificationService.js';
 import type { AuthenticatedRequest } from '../types/auth.js';
 import type { ApprovalRequestInput, ApprovalResponseInput, ApprovalRecordResponse } from '../types/milestone.js';
 import { badRequest, forbidden, notFound, unauthorized } from '../utils/httpError.js';
@@ -71,6 +72,8 @@ export const requestApproval: RequestHandler = async (request, response) => {
   });
   await approval.save();
 
+  await NotificationService.notifyApprovalRequested(approval, milestone, project, authRequest.user.id).catch(console.error);
+
   response.status(201).json({
     data: toApprovalResponse(approval),
   });
@@ -128,6 +131,8 @@ export const approveMilestone: RequestHandler = async (request, response) => {
     approval.respondedAt = new Date();
     approval.comment = input.comment;
     await approval.save();
+
+    await NotificationService.notifyApprovalApproved(approval, milestone, project, authRequest.user.id).catch(console.error);
   }
 
   response.status(200).json({
@@ -200,6 +205,8 @@ export const requestChanges: RequestHandler = async (request, response) => {
     approval.comment = input.comment;
     approval.reason = input.reason;
     await approval.save();
+
+    await NotificationService.notifyApprovalRejected(approval, milestone, project, authRequest.user.id).catch(console.error);
   }
 
   response.status(200).json({

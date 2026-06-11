@@ -2,6 +2,7 @@ import type { RequestHandler } from 'express';
 
 import { MilestoneModel } from '../models/Milestone.js';
 import { ProjectModel } from '../models/Project.js';
+import { NotificationService } from '../services/notificationService.js';
 import type { AuthenticatedRequest } from '../types/auth.js';
 import type { CreateMilestoneInput, UpdateMilestoneInput, MilestoneResponse } from '../types/milestone.js';
 import { badRequest, forbidden, notFound, unauthorized } from '../utils/httpError.js';
@@ -227,6 +228,8 @@ export const updateMilestone: RequestHandler = async (request, response) => {
     milestone.dueDate = dueDate;
   }
 
+  const wasNotCompleted = milestone.status !== 'completed';
+
   if (input.status !== undefined) {
     const validStatuses = [
       'not_started',
@@ -257,6 +260,11 @@ export const updateMilestone: RequestHandler = async (request, response) => {
 
   milestone.updatedBy = authRequest.user.id;
   await milestone.save();
+
+  if (wasNotCompleted && milestone.status === 'completed') {
+    // Notify the other party about the milestone completion
+    await NotificationService.notifyMilestoneCompleted(milestone, project, authRequest.user.id).catch(console.error);
+  }
 
   response.status(200).json({
     data: toMilestoneResponse(milestone),
@@ -339,10 +347,16 @@ export const completeMilestone: RequestHandler = async (request, response) => {
     throw forbidden('You do not have permission to update this milestone.');
   }
 
+  const wasNotCompleted = milestone.status !== 'completed';
+
   milestone.status = 'completed';
   milestone.completionPercentage = 100;
   milestone.updatedBy = authRequest.user.id;
   await milestone.save();
+
+  if (wasNotCompleted) {
+    await NotificationService.notifyMilestoneCompleted(milestone, project, authRequest.user.id).catch(console.error);
+  }
 
   response.status(200).json({
     data: toMilestoneResponse(milestone),

@@ -1,12 +1,8 @@
 import { motion } from 'framer-motion';
 import {
-  Bell,
   ChevronDown,
   ChevronRight,
-  Command,
   FolderKanban,
-  LayoutDashboard,
-  LogOut,
   Plus,
   Search,
   Trash2,
@@ -14,6 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Header } from '../components/Header';
 import { useAuth } from '../hooks/useAuth';
 import { projectAPI, type Project, type ProjectStatus } from '../lib/projectApi';
 
@@ -34,7 +31,7 @@ const healthColors: Record<string, string> = {
 
 export function ProjectsPage() {
   const navigate = useNavigate();
-  const { user, logout, accessToken } = useAuth();
+  const { user, accessToken } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -82,56 +79,10 @@ export function ProjectsPage() {
   };
 
   const pages = Math.ceil(total / limit);
-  const firstName = user?.name.split(' ')[0] ?? 'Manager';
 
   return (
     <main className="min-h-screen bg-pulse-background text-pulse-text">
-      {/* Header */}
-      <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-          <a className="flex items-center gap-2 font-semibold" href="/app">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-pulse-text text-white">
-              <Command className="h-4 w-4" />
-            </span>
-            <span>ProjectPulse</span>
-          </a>
-
-          <nav className="ml-4 hidden items-center gap-1 md:flex" aria-label="Primary navigation">
-            <a
-              className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-50 hover:text-pulse-text"
-              href="/app"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Overview
-            </a>
-            <a
-              className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-sm font-semibold text-pulse-text"
-              href="/projects"
-            >
-              <FolderKanban className="h-4 w-4" />
-              Projects
-            </a>
-          </nav>
-
-          <div className="ml-auto flex items-center gap-2">
-            <button
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-pulse-text"
-              title="Notifications"
-              type="button"
-            >
-              <Bell className="h-4 w-4" />
-            </button>
-            <button
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-pulse-text"
-              onClick={() => void logout()}
-              title="Logout"
-              type="button"
-            >
-              <LogOut className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

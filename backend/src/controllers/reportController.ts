@@ -3,6 +3,7 @@ import type { RequestHandler } from 'express';
 import { ProjectModel } from '../models/Project.js';
 import { MilestoneModel } from '../models/Milestone.js';
 import { ReportModel } from '../models/Report.js';
+import { NotificationService } from '../services/notificationService.js';
 import type { AuthenticatedRequest } from '../types/auth.js';
 import { badRequest, forbidden, notFound } from '../utils/httpError.js';
 
@@ -68,6 +69,8 @@ export const generateReport: RequestHandler = async (request, response) => {
     nextWeekPlan: nextWeekPlanText,
     overallHealthScore: project.healthScore,
   });
+
+  await NotificationService.notifyReportGenerated(report, project, authRequest.user.id).catch(console.error);
 
   response.status(201).json({
     data: {

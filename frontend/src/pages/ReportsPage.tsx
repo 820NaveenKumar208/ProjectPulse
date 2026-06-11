@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  FileText, 
   Download, 
   Wand2, 
   Calendar, 
@@ -12,7 +11,6 @@ import {
   Activity,
   CheckCircle2,
   Clock,
-  ChevronRight,
   Loader2
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
@@ -21,6 +19,7 @@ import { format } from 'date-fns';
 
 import { reportApi, type Report } from '../lib/reportApi';
 import { useAuth } from '../contexts/AuthContext';
+import { Header } from '../components/Header';
 
 export function ReportsPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -125,7 +124,10 @@ export function ReportsPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] gap-6">
+    <main className="min-h-screen bg-pulse-background text-pulse-text">
+      <Header />
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex h-[calc(100vh-12rem)] gap-6">
       {/* Sidebar - Report List */}
       <div className="w-80 flex-shrink-0 border-r border-slate-200 bg-slate-50/50 pr-6 overflow-y-auto hidden md:block">
         <div className="flex items-center justify-between mb-6 pt-2">
@@ -310,6 +312,8 @@ export function ReportsPage() {
           )}
         </AnimatePresence>
       </div>
-    </div>
+        </div>
+      </div>
+    </main>
   );
 }

@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, Command } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { ProjectForm } from '../components/ProjectForm';
 import { useAuth } from '../hooks/useAuth';
 import { projectAPI, type Project, type UpdateProjectInput } from '../lib/projectApi';
+import { Header } from '../components/Header';
 
 export function EditProjectPage() {
   const navigate = useNavigate();
@@ -50,17 +51,7 @@ export function EditProjectPage() {
 
   return (
     <main className="min-h-screen bg-pulse-background text-pulse-text">
-      {/* Header */}
-      <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-          <a className="flex items-center gap-2 font-semibold" href="/app">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-pulse-text text-white">
-              <Command className="h-4 w-4" />
-            </span>
-            <span>ProjectPulse</span>
-          </a>
-        </div>
-      </header>
+      <Header />
 
       {/* Content */}
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">

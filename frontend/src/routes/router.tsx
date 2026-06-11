@@ -48,6 +48,16 @@ const SharePage = lazy(async () => {
   return { default: module.SharePage };
 });
 
+const NotificationsPage = lazy(async () => {
+  const module = await import('../pages/NotificationsPage');
+  return { default: module.NotificationsPage };
+});
+
+const ReportsPage = lazy(async () => {
+  const module = await import('../pages/ReportsPage');
+  return { default: module.ReportsPage };
+});
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -167,6 +177,34 @@ export const router = createBrowserRouter([
                 }
               >
                 <MilestoneDetailPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'app/notifications',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <NotificationsPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'projects/:projectId/reports',
+            element: (
+              <Suspense
+                fallback={
+                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
+                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
+                  </main>
+                }
+              >
+                <ReportsPage />
               </Suspense>
             ),
           },
