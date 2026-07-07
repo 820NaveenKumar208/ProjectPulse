@@ -1,4 +1,4 @@
-import { apiRequest, type ApiError } from './api';
+import { apiRequest } from './api';
 
 export type ProjectStatus = 'planning' | 'active' | 'paused' | 'completed' | 'archived';
 export type HealthStatus = 'excellent' | 'good' | 'at_risk' | 'critical';
@@ -62,27 +62,24 @@ export const projectAPI = {
     if (options?.search) params.set('search', options.search);
     if (options?.status) params.set('status', options.status);
 
-    const response = await apiRequest<{ data: ProjectListResponse }>(
+    return apiRequest<ProjectListResponse>(
       `/projects?${params.toString()}`,
       { accessToken },
     );
-    return response.data;
   },
 
   getProject: async (accessToken: string, projectId: string): Promise<Project> => {
-    const response = await apiRequest<{ data: Project }>(`/projects/${projectId}`, {
+    return apiRequest<Project>(`/projects/${projectId}`, {
       accessToken,
     });
-    return response.data;
   },
 
   createProject: async (accessToken: string, input: CreateProjectInput): Promise<Project> => {
-    const response = await apiRequest<{ data: Project }>('/projects', {
+    return apiRequest<Project>('/projects', {
       accessToken,
       method: 'POST',
       body: JSON.stringify(input),
     });
-    return response.data;
   },
 
   updateProject: async (
@@ -90,20 +87,18 @@ export const projectAPI = {
     projectId: string,
     input: UpdateProjectInput,
   ): Promise<Project> => {
-    const response = await apiRequest<{ data: Project }>(`/projects/${projectId}`, {
+    return apiRequest<Project>(`/projects/${projectId}`, {
       accessToken,
       method: 'PATCH',
       body: JSON.stringify(input),
     });
-    return response.data;
   },
 
   archiveProject: async (accessToken: string, projectId: string): Promise<Project> => {
-    const response = await apiRequest<{ data: Project }>(`/projects/${projectId}/archive`, {
+    return apiRequest<Project>(`/projects/${projectId}/archive`, {
       accessToken,
       method: 'POST',
     });
-    return response.data;
   },
 
   deleteProject: async (accessToken: string, projectId: string): Promise<void> => {

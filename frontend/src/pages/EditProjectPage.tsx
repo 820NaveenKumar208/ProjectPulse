@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ProjectForm } from '../components/ProjectForm';
 import { useAuth } from '../hooks/useAuth';
 import { projectAPI, type Project, type UpdateProjectInput } from '../lib/projectApi';
-import { Header } from '../components/Header';
 
 export function EditProjectPage() {
   const navigate = useNavigate();
@@ -50,11 +49,7 @@ export function EditProjectPage() {
   }
 
   return (
-    <main className="min-h-screen bg-pulse-background text-pulse-text">
-      <Header />
-
-      {/* Content */}
-      <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="space-y-6 max-w-2xl mx-auto">
         <motion.button
           className="mb-6 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-700"
           onClick={() => navigate(-1)}
@@ -96,7 +91,6 @@ export function EditProjectPage() {
             />
           </motion.div>
         )}
-      </div>
-    </main>
+    </div>
   );
 }

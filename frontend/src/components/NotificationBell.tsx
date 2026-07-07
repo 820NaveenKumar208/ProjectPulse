@@ -88,10 +88,10 @@ export function NotificationBell() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 z-50 mt-2 w-80 sm:w-96 origin-top-right rounded-2xl border border-slate-200 bg-white p-2 shadow-xl"
+            className="absolute right-0 z-50 mt-2 w-80 sm:w-96 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2 shadow-xl"
           >
             <div className="flex items-center justify-between px-3 py-2">
-              <h3 className="font-semibold text-slate-800">Notifications</h3>
+              <h3 className="font-semibold text-slate-800 dark:text-slate-200">Notifications</h3>
               {unreadCount > 0 && (
                 <button
                   type="button"
@@ -104,7 +104,7 @@ export function NotificationBell() {
               )}
             </div>
 
-            <div className="my-1 border-t border-slate-100" />
+            <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
 
             <div className="max-h-96 overflow-y-auto">
               {notifications.length === 0 ? (
@@ -118,7 +118,7 @@ export function NotificationBell() {
                     <Link
                       key={notification.id}
                       to={notification.projectId ? `/projects/${notification.projectId}` : '/app'}
-                      className={`block rounded-xl p-3 transition-colors hover:bg-slate-50 ${
+                      className={`block rounded-xl p-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/40 ${
                         !notification.read ? 'bg-pulse-primary/5' : ''
                       }`}
                       onClick={() => setIsOpen(false)}
@@ -132,13 +132,13 @@ export function NotificationBell() {
                           )}
                         </div>
                         <div className="flex-1">
-                          <p className={`text-sm ${!notification.read ? 'font-semibold text-slate-800' : 'font-medium text-slate-600'}`}>
+                          <p className={`text-sm ${!notification.read ? 'font-semibold text-slate-800 dark:text-slate-200' : 'font-medium text-slate-650 dark:text-slate-350'}`}>
                             {notification.title}
                           </p>
-                          <p className="mt-1 text-xs text-slate-500 line-clamp-2">
+                          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
                             {notification.message}
                           </p>
-                          <p className="mt-2 text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                          <p className="mt-2 text-[10px] font-medium uppercase tracking-wider text-slate-400 dark:text-slate-500">
                             {new Date(notification.createdAt).toLocaleDateString(undefined, {
                               month: 'short',
                               day: 'numeric',
@@ -151,7 +151,7 @@ export function NotificationBell() {
                           <button
                             type="button"
                             onClick={(e) => handleMarkAsRead(notification.id, e)}
-                            className="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600"
+                            className="rounded p-1 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-650 dark:hover:text-slate-300"
                             title="Mark as read"
                           >
                             <Check className="h-4 w-4" />
@@ -164,10 +164,10 @@ export function NotificationBell() {
               )}
             </div>
 
-            <div className="mt-2 border-t border-slate-100 px-3 pb-1 pt-2">
+            <div className="mt-2 border-t border-slate-100 dark:border-slate-800 px-3 pb-1 pt-2">
               <Link
                 to="/app/notifications"
-                className="flex items-center justify-center gap-1 w-full rounded-lg py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pulse-primary"
+                className="flex items-center justify-center gap-1 w-full rounded-lg py-2 text-sm font-medium text-slate-655 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-pulse-primary"
                 onClick={() => setIsOpen(false)}
               >
                 View all notifications

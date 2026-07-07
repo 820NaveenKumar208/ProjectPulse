@@ -22,11 +22,11 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, { bg: string; text: string }> = {
-  planning: { bg: 'bg-slate-100', text: 'text-slate-600' },
-  active: { bg: 'bg-blue-100', text: 'text-blue-700' },
-  paused: { bg: 'bg-amber-100', text: 'text-amber-700' },
-  completed: { bg: 'bg-emerald-100', text: 'text-emerald-700' },
-  archived: { bg: 'bg-gray-100', text: 'text-gray-600' },
+  planning: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-400' },
+  active: { bg: 'bg-violet-100 dark:bg-violet-900/20', text: 'text-violet-700 dark:text-violet-400' },
+  paused: { bg: 'bg-amber-100 dark:bg-amber-900/20', text: 'text-amber-700 dark:text-amber-400' },
+  completed: { bg: 'bg-emerald-100 dark:bg-emerald-900/20', text: 'text-emerald-700 dark:text-emerald-400' },
+  archived: { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-600 dark:text-gray-400' },
 };
 
 const healthConfig: Record<string, { label: string; color: string; ringColor: string; textColor: string }> = {
@@ -38,9 +38,9 @@ const healthConfig: Record<string, { label: string; color: string; ringColor: st
   },
   good: {
     label: 'Good',
-    color: 'from-blue-400 to-blue-600',
-    ringColor: 'stroke-blue-500',
-    textColor: 'text-blue-600',
+    color: 'from-violet-400 to-violet-600',
+    ringColor: 'stroke-violet-500',
+    textColor: 'text-violet-650 dark:text-violet-400',
   },
   at_risk: {
     label: 'At Risk',
@@ -58,7 +58,7 @@ const healthConfig: Record<string, { label: string; color: string; ringColor: st
 
 const milestoneStatusConfig: Record<string, { icon: typeof CheckCircle2; color: string; bg: string; label: string }> = {
   not_started: { icon: Clock, color: 'text-slate-400', bg: 'bg-slate-100', label: 'Not Started' },
-  in_progress: { icon: TrendingUp, color: 'text-blue-500', bg: 'bg-blue-50', label: 'In Progress' },
+  in_progress: { icon: TrendingUp, color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-50 dark:bg-violet-950/20', label: 'In Progress' },
   ready_for_approval: { icon: Clock, color: 'text-amber-500', bg: 'bg-amber-50', label: 'Pending Review' },
   approved: { icon: CheckCircle2, color: 'text-emerald-500', bg: 'bg-emerald-50', label: 'Approved' },
   changes_requested: { icon: XCircle, color: 'text-red-500', bg: 'bg-red-50', label: 'Changes Requested' },
@@ -104,7 +104,7 @@ function ProgressRing({ value, size = 120, strokeWidth = 10, health }: {
       </svg>
       <div className="absolute flex flex-col items-center">
         <span className={`text-2xl font-bold ${cfg.textColor}`}>{value}%</span>
-        <span className="text-xs text-slate-500">progress</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400">progress</span>
       </div>
     </div>
   );
@@ -127,20 +127,20 @@ function MilestoneRow({ milestone, index }: { milestone: PublicMilestone; index:
       {/* Timeline connector */}
       <div className="flex flex-col items-center">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-white shadow-sm ${cfg.bg}`}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-white dark:border-slate-900 shadow-sm ${cfg.bg}`}
         >
           <Icon className={`h-4 w-4 ${cfg.color}`} />
         </div>
       </div>
 
-      <div className="flex-1 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+      <div className="flex-1 rounded-xl border border-slate-100 dark:border-slate-800/60 bg-white dark:bg-slate-900/60 p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
-            <p className={`text-sm font-semibold ${isCompleted ? 'text-slate-500 line-through' : 'text-slate-900'}`}>
+            <p className={`text-sm font-semibold ${isCompleted ? 'text-slate-550 dark:text-slate-500 line-through' : 'text-slate-900 dark:text-slate-100'}`}>
               {milestone.title}
             </p>
             {milestone.description && (
-              <p className="mt-0.5 text-xs text-slate-500 line-clamp-2">{milestone.description}</p>
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{milestone.description}</p>
             )}
           </div>
           <span
@@ -153,19 +153,19 @@ function MilestoneRow({ milestone, index }: { milestone: PublicMilestone; index:
         <div className="mt-3 flex flex-wrap items-center gap-4">
           {/* Progress bar */}
           <div className="flex flex-1 items-center gap-2 min-w-32">
-            <div className="h-1.5 flex-1 rounded-full bg-slate-100">
+            <div className="h-1.5 flex-1 rounded-full bg-slate-100 dark:bg-slate-800">
               <motion.div
-                className={`h-full rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-blue-400'}`}
+                className={`h-full rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-violet-500'}`}
                 initial={{ width: 0 }}
                 animate={{ width: `${milestone.completionPercentage}%` }}
                 transition={{ duration: 0.8, delay: index * 0.08 }}
               />
             </div>
-            <span className="text-xs font-medium text-slate-500">{milestone.completionPercentage}%</span>
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-450">{milestone.completionPercentage}%</span>
           </div>
 
           {/* Due date */}
-          <div className={`flex items-center gap-1 text-xs ${isOverdue ? 'text-red-500' : 'text-slate-400'}`}>
+          <div className={`flex items-center gap-1 text-xs ${isOverdue ? 'text-red-500' : 'text-slate-400 dark:text-slate-500'}`}>
             <Calendar className="h-3 w-3" />
             {isOverdue ? 'Overdue · ' : ''}{dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </div>
@@ -206,19 +206,19 @@ export function SharePage() {
   const hCfg = healthConfig[project?.healthStatus ?? 'good'] ?? healthConfig.good;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 transition-colors">
       {/* Slim branding header */}
-      <header className="border-b border-slate-200/60 bg-white/80 backdrop-blur-xl">
+      <header className="border-b border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-[#0B1120]/80 backdrop-blur-xl">
         <div className="mx-auto flex h-12 max-w-5xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 text-white">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-violet-600 to-cyan-500 text-white shadow shadow-violet-500/10">
               <Command className="h-3 w-3" />
             </span>
-            <span className="text-sm font-semibold text-slate-800">ProjectPulse</span>
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">ProjectPulse</span>
           </div>
-          <div className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
-            <Shield className="h-3 w-3 text-slate-400" />
-            <span className="text-xs text-slate-500">Read-only · Public view</span>
+          <div className="flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 px-3 py-1">
+            <Shield className="h-3 w-3 text-slate-400 dark:text-slate-500" />
+            <span className="text-xs text-slate-500 dark:text-slate-400">Read-only · Public view</span>
           </div>
         </div>
       </header>
@@ -227,8 +227,8 @@ export function SharePage() {
       {loading && (
         <div className="flex min-h-[70vh] items-center justify-center">
           <div className="flex flex-col items-center gap-3">
-            <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-blue-500" />
-            <p className="text-sm text-slate-500">Loading project…</p>
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 dark:border-slate-800 border-t-pulse-primary" />
+            <p className="text-sm text-slate-500 dark:text-slate-400">Loading project…</p>
           </div>
         </div>
       )}
@@ -239,13 +239,13 @@ export function SharePage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-md rounded-2xl border border-red-100 bg-white p-8 text-center shadow-sm"
+            className="w-full max-w-md rounded-2xl border border-red-100 dark:border-red-950/30 bg-white dark:bg-slate-900 p-8 text-center shadow-sm"
           >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 dark:bg-red-900/10">
               <AlertTriangle className="h-7 w-7 text-red-500" />
             </div>
-            <h1 className="mt-4 text-xl font-bold text-slate-900">Link unavailable</h1>
-            <p className="mt-2 text-sm text-slate-500">{error}</p>
+            <h1 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">Link unavailable</h1>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{error}</p>
           </motion.div>
         </div>
       )}
@@ -258,10 +258,10 @@ export function SharePage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-md"
+            className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-900 shadow-md"
           >
             {/* Glassmorphism gradient overlay */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-50/60 via-transparent to-emerald-50/40" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-cyan-500/10 dark:from-violet-500/5 dark:to-cyan-550/5" />
 
             <div className="relative p-6 sm:p-8">
               <div className="flex flex-wrap items-start justify-between gap-4">
@@ -278,14 +278,14 @@ export function SharePage() {
                       Health: {hCfg.label}
                     </span>
                   </div>
-                  <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                  <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                     {project.name}
                   </h1>
                   {project.description && (
-                    <p className="mt-2 max-w-2xl text-slate-600">{project.description}</p>
+                    <p className="mt-2 max-w-2xl text-slate-600 dark:text-slate-400">{project.description}</p>
                   )}
 
-                  <div className="mt-4 flex flex-wrap gap-5 text-sm text-slate-500">
+                  <div className="mt-4 flex flex-wrap gap-5 text-sm text-slate-500 dark:text-slate-400">
                     <span className="flex items-center gap-1.5">
                       <Calendar className="h-4 w-4" />
                       {new Date(project.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -293,7 +293,7 @@ export function SharePage() {
                       {new Date(project.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      <CheckCircle2 className="h-4 w-4 text-emerald-550" />
                       {completed} of {project.milestones.length} milestones complete
                     </span>
                   </div>
@@ -308,10 +308,10 @@ export function SharePage() {
               {/* Progress bar */}
               <div className="mt-6">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-slate-700">Overall Progress</span>
+                  <span className="font-medium text-slate-700 dark:text-slate-350">Overall Progress</span>
                   <span className={`font-semibold ${hCfg.textColor}`}>{project.progress}%</span>
                 </div>
-                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-100">
+                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
                   <motion.div
                     className={`h-full rounded-full bg-gradient-to-r ${hCfg.color}`}
                     initial={{ width: 0 }}
@@ -344,7 +344,7 @@ export function SharePage() {
               {
                 label: 'In Progress',
                 value: project.milestones.filter((m) => m.status === 'in_progress').length,
-                color: 'text-blue-600',
+                color: 'text-violet-650 dark:text-violet-400',
               },
               {
                 label: 'Pending Review',
@@ -354,10 +354,10 @@ export function SharePage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-slate-100 bg-white px-4 py-4 text-center shadow-sm"
+                className="rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-4 py-4 text-center shadow-sm"
               >
                 <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="mt-1 text-xs text-slate-500">{stat.label}</div>
+                <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{stat.label}</div>
               </div>
             ))}
           </motion.div>
@@ -370,10 +370,10 @@ export function SharePage() {
               transition={{ delay: 0.25 }}
               className="mt-8"
             >
-              <h2 className="mb-5 text-lg font-bold text-slate-900">Milestones</h2>
+              <h2 className="mb-5 text-lg font-bold text-slate-900 dark:text-white">Milestones</h2>
               <div className="relative pl-4">
                 {/* Vertical track */}
-                <div className="absolute left-7 top-4 bottom-4 w-0.5 rounded-full bg-slate-100" />
+                <div className="absolute left-7 top-4 bottom-4 w-0.5 rounded-full bg-slate-100 dark:bg-slate-800" />
                 <div className="space-y-2">
                   {[...project.milestones]
                     .sort((a, b) => a.order - b.order)
@@ -390,15 +390,15 @@ export function SharePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mt-12 border-t border-slate-200 pt-6 text-center"
+            className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-6 text-center"
           >
-            <div className="flex items-center justify-center gap-2 text-slate-400">
+            <div className="flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
               <Command className="h-4 w-4" />
               <span className="text-sm">
-                Powered by <span className="font-semibold text-slate-600">ProjectPulse</span>
+                Powered by <span className="font-semibold text-slate-600 dark:text-slate-400">ProjectPulse</span>
               </span>
             </div>
-            <p className="mt-1 text-xs text-slate-400">This is a read-only view. All data is real-time.</p>
+            <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">This is a read-only view. All data is real-time.</p>
           </motion.div>
         </div>
       )}

@@ -24,6 +24,7 @@ export type PendingApprovalItem = {
     title: string;
     projectId: string;
   } | null;
+  projectName?: string;
 };
 
 export type ApprovalHistoryResponse = {

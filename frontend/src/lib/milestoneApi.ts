@@ -57,18 +57,21 @@ export const milestoneAPI = {
     accessToken: string,
     projectId: string,
   ): Promise<MilestoneListResponse> => {
-    const response = await apiRequest<{ data: MilestoneListResponse }>(
+    return apiRequest<MilestoneListResponse>(
       `/projects/${projectId}/milestones`,
       { accessToken },
     );
-    return response.data;
   },
 
-  getMilestone: async (accessToken: string, milestoneId: string): Promise<Milestone> => {
-    const response = await apiRequest<{ data: Milestone }>(`/milestones/${milestoneId}`, {
+  getMilestone: async (accessToken: string, milestoneId: string, projectId?: string): Promise<Milestone> => {
+    // If projectId is provided, use the nested route (preferred).
+    // Otherwise fall back to the flat route for backward compat.
+    const path = projectId
+      ? `/projects/${projectId}/milestones/${milestoneId}`
+      : `/projects/milestones/${milestoneId}`;
+    return apiRequest<Milestone>(path, {
       accessToken,
     });
-    return response.data;
   },
 
   createMilestone: async (
@@ -76,7 +79,7 @@ export const milestoneAPI = {
     projectId: string,
     input: CreateMilestoneInput,
   ): Promise<Milestone> => {
-    const response = await apiRequest<{ data: Milestone }>(
+    return apiRequest<Milestone>(
       `/projects/${projectId}/milestones`,
       {
         accessToken,
@@ -84,35 +87,39 @@ export const milestoneAPI = {
         body: JSON.stringify(input),
       },
     );
-    return response.data;
   },
 
   updateMilestone: async (
     accessToken: string,
     milestoneId: string,
     input: UpdateMilestoneInput,
+    projectId?: string,
   ): Promise<Milestone> => {
-    const response = await apiRequest<{ data: Milestone }>(`/milestones/${milestoneId}`, {
+    const path = projectId
+      ? `/projects/${projectId}/milestones/${milestoneId}`
+      : `/projects/milestones/${milestoneId}`;
+    return apiRequest<Milestone>(path, {
       accessToken,
       method: 'PATCH',
       body: JSON.stringify(input),
     });
-    return response.data;
   },
 
-  completeMilestone: async (accessToken: string, milestoneId: string): Promise<Milestone> => {
-    const response = await apiRequest<{ data: Milestone }>(
-      `/milestones/${milestoneId}/complete`,
-      {
-        accessToken,
-        method: 'POST',
-      },
-    );
-    return response.data;
+  completeMilestone: async (accessToken: string, milestoneId: string, projectId?: string): Promise<Milestone> => {
+    const path = projectId
+      ? `/projects/${projectId}/milestones/${milestoneId}/complete`
+      : `/projects/milestones/${milestoneId}/complete`;
+    return apiRequest<Milestone>(path, {
+      accessToken,
+      method: 'POST',
+    });
   },
 
-  deleteMilestone: async (accessToken: string, milestoneId: string): Promise<void> => {
-    await apiRequest(`/milestones/${milestoneId}`, {
+  deleteMilestone: async (accessToken: string, milestoneId: string, projectId?: string): Promise<void> => {
+    const path = projectId
+      ? `/projects/${projectId}/milestones/${milestoneId}`
+      : `/projects/milestones/${milestoneId}`;
+    await apiRequest(path, {
       accessToken,
       method: 'DELETE',
     });

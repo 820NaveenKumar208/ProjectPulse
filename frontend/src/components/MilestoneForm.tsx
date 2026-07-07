@@ -92,25 +92,25 @@ export function MilestoneForm({
       animate={{ opacity: 1, y: 0 }}
       className="max-w-2xl mx-auto"
     >
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">{title}</h2>
+      <div className="bg-white dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-lg p-6">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">{title}</h2>
 
         {error && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex gap-3"
+            className="mb-4 p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 rounded-lg flex gap-3"
           >
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-red-700">{error}</p>
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
           </motion.div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1.5">
-              Title <span className="text-red-600">*</span>
+            <label htmlFor="title" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              Title <span className="text-red-650 dark:text-red-450">*</span>
             </label>
             <input
               id="title"
@@ -120,20 +120,20 @@ export function MilestoneForm({
               onChange={handleChange}
               placeholder="Milestone title"
               disabled={isLoading}
-              className={`w-full px-4 py-2 rounded-lg border-2 focus:outline-none transition-colors ${
+              className={`w-full px-4 py-2 rounded-lg border bg-white dark:bg-slate-900 border-slate-250 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors ${
                 validationErrors.title
-                  ? 'border-red-500 bg-red-50 focus:border-red-600'
-                  : 'border-gray-200 focus:border-blue-500'
-              } disabled:bg-gray-50 disabled:text-gray-500`}
+                  ? 'border-red-500 bg-red-50 dark:bg-red-950/20 focus:border-red-600'
+                  : ''
+              } disabled:bg-gray-50 dark:disabled:bg-slate-800 disabled:text-slate-500`}
             />
             {validationErrors.title && (
-              <p className="mt-1 text-sm text-red-600">{validationErrors.title}</p>
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.title}</p>
             )}
           </div>
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="description" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
               Description
             </label>
             <textarea
@@ -144,14 +144,14 @@ export function MilestoneForm({
               placeholder="Additional details (optional)"
               disabled={isLoading}
               rows={3}
-              className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-blue-500 transition-colors disabled:bg-gray-50 disabled:text-gray-500"
+              className="w-full px-4 py-2 rounded-lg border bg-white dark:bg-slate-900 border-slate-250 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors disabled:bg-gray-50 dark:disabled:bg-slate-800 disabled:text-slate-500"
             />
           </div>
 
           {/* Due Date */}
           <div>
-            <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700 mb-1.5">
-              Due Date <span className="text-red-600">*</span>
+            <label htmlFor="dueDate" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              Due Date <span className="text-red-650 dark:text-red-450">*</span>
             </label>
             <input
               id="dueDate"
@@ -160,14 +160,14 @@ export function MilestoneForm({
               value={formData.dueDate}
               onChange={handleChange}
               disabled={isLoading}
-              className={`w-full px-4 py-2 rounded-lg border-2 focus:outline-none transition-colors ${
+              className={`w-full px-4 py-2 rounded-lg border bg-white dark:bg-slate-900 border-slate-250 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors ${
                 validationErrors.dueDate
-                  ? 'border-red-500 bg-red-50 focus:border-red-600'
-                  : 'border-gray-200 focus:border-blue-500'
-              } disabled:bg-gray-50 disabled:text-gray-500`}
+                  ? 'border-red-500 bg-red-50 dark:bg-red-950/20 focus:border-red-600'
+                  : ''
+              } disabled:bg-gray-50 dark:disabled:bg-slate-800 disabled:text-slate-500`}
             />
             {validationErrors.dueDate && (
-              <p className="mt-1 text-sm text-red-600">{validationErrors.dueDate}</p>
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.dueDate}</p>
             )}
           </div>
 
@@ -175,7 +175,7 @@ export function MilestoneForm({
           {initialData && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label htmlFor="status" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                   Status
                 </label>
                 <select
@@ -184,7 +184,7 @@ export function MilestoneForm({
                   value={formData.status}
                   onChange={handleChange}
                   disabled={isLoading}
-                  className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-blue-500 transition-colors disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-4 py-2 rounded-lg border bg-white dark:bg-slate-900 border-slate-250 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors disabled:bg-gray-50 dark:disabled:bg-slate-800 disabled:text-slate-500"
                 >
                   <option value="not_started">Not Started</option>
                   <option value="in_progress">In Progress</option>
@@ -199,7 +199,7 @@ export function MilestoneForm({
               <div>
                 <label
                   htmlFor="completionPercentage"
-                  className="block text-sm font-medium text-gray-700 mb-1.5"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
                 >
                   Progress: {formData.completionPercentage}%
                 </label>
@@ -212,7 +212,7 @@ export function MilestoneForm({
                   value={formData.completionPercentage}
                   onChange={handleChange}
                   disabled={isLoading}
-                  className="w-full disabled:opacity-50"
+                  className="w-full disabled:opacity-50 accent-violet-600"
                 />
               </div>
             </div>
@@ -225,7 +225,7 @@ export function MilestoneForm({
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isLoading}
-              className="flex-1 px-6 py-2.5 rounded-lg font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-2.5 rounded-lg font-medium text-white bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-750 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-md shadow-violet-500/20"
             >
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
               {submitLabel}
@@ -238,7 +238,7 @@ export function MilestoneForm({
                 type="button"
                 onClick={onCancel}
                 disabled={isLoading}
-                className="px-6 py-2.5 rounded-lg font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-6 py-2.5 rounded-lg font-medium text-slate-700 dark:text-slate-350 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 Cancel
               </motion.button>

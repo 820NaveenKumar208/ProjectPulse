@@ -53,7 +53,7 @@ export function RegisterPage() {
           <label className="block">
             <span className="text-sm font-medium text-slate-700">Name</span>
             <input
-              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100"
               name="name"
               required
             />
@@ -61,7 +61,7 @@ export function RegisterPage() {
           <label className="block">
             <span className="text-sm font-medium text-slate-700">Organization</span>
             <input
-              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100"
               name="organizationId"
               required
             />
@@ -72,7 +72,7 @@ export function RegisterPage() {
           <span className="text-sm font-medium text-slate-700">Email</span>
           <input
             autoComplete="email"
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100"
             name="email"
             required
             type="email"
@@ -83,7 +83,7 @@ export function RegisterPage() {
           <span className="text-sm font-medium text-slate-700">Password</span>
           <input
             autoComplete="new-password"
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100"
             minLength={8}
             name="password"
             required

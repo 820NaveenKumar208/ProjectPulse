@@ -78,14 +78,14 @@ export function ProjectForm({
   return (
     <div className="w-full">
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">{title}</h2>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{title}</h2>
         {onCancel && (
           <button
-            className="rounded-lg p-2 transition hover:bg-slate-100"
+            className="rounded-lg p-2 transition hover:bg-slate-100 dark:hover:bg-slate-800"
             onClick={onCancel}
             type="button"
           >
-            <X className="h-5 w-5 text-slate-500" />
+            <X className="h-5 w-5 text-slate-500 dark:text-slate-400" />
           </button>
         )}
       </div>
@@ -103,9 +103,9 @@ export function ProjectForm({
       <form className="space-y-5" onSubmit={handleSubmit}>
         {/* Project Name */}
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Project Name</span>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-350">Project Name</span>
           <input
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+            className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100 dark:focus:ring-violet-950/20 dark:text-white"
             placeholder="e.g., Website Redesign"
             required
             type="text"
@@ -116,9 +116,9 @@ export function ProjectForm({
 
         {/* Description */}
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Description</span>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-350">Description</span>
           <textarea
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+            className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100 dark:focus:ring-violet-950/20 dark:text-white"
             placeholder="Describe the project..."
             rows={4}
             value={formData.description}
@@ -128,9 +128,9 @@ export function ProjectForm({
 
         {/* Client ID */}
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Client ID</span>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-350">Client ID</span>
           <input
-            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+            className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100 dark:focus:ring-violet-950/20 dark:text-white"
             placeholder="Client identifier"
             required
             type="text"
@@ -142,9 +142,9 @@ export function ProjectForm({
         {/* Dates */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Start Date</span>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-350">Start Date</span>
             <input
-              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100 dark:focus:ring-violet-950/20 dark:text-white"
               required
               type="date"
               value={formData.startDate}
@@ -153,9 +153,9 @@ export function ProjectForm({
           </label>
 
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">End Date</span>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-350">End Date</span>
             <input
-              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-4 py-3 text-base outline-none transition focus:border-pulse-primary focus:ring-4 focus:ring-violet-100 dark:focus:ring-violet-950/20 dark:text-white"
               required
               type="date"
               value={formData.endDate}

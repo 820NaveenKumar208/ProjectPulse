@@ -22,22 +22,22 @@ const toneStyles: Record<
 > = {
   blue: {
     icon: CircleDot,
-    iconClassName: 'bg-blue-50 text-pulse-primary',
+    iconClassName: 'bg-violet-50 dark:bg-violet-950/30 text-pulse-primary',
     trendClassName: 'text-pulse-primary',
   },
   green: {
     icon: CheckCircle2,
-    iconClassName: 'bg-emerald-50 text-pulse-success',
+    iconClassName: 'bg-emerald-50 dark:bg-emerald-950/30 text-pulse-success',
     trendClassName: 'text-pulse-success',
   },
   amber: {
     icon: Clock3,
-    iconClassName: 'bg-amber-50 text-pulse-warning',
+    iconClassName: 'bg-amber-50 dark:bg-amber-950/30 text-pulse-warning',
     trendClassName: 'text-pulse-warning',
   },
   red: {
     icon: CalendarClock,
-    iconClassName: 'bg-red-50 text-pulse-danger',
+    iconClassName: 'bg-red-50 dark:bg-red-950/30 text-pulse-danger',
     trendClassName: 'text-pulse-danger',
   },
 };
@@ -49,7 +49,7 @@ export function MetricCard({ detail, index, label, tone, trend, value }: MetricC
   return (
     <motion.article
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm"
+      className="rounded-lg border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 shadow-sm"
       initial={{ opacity: 0, y: 12 }}
       transition={{ delay: index * 0.05, duration: 0.35, ease: 'easeOut' }}
     >
@@ -61,9 +61,9 @@ export function MetricCard({ detail, index, label, tone, trend, value }: MetricC
         </div>
         <span className={`text-xs font-semibold ${style.trendClassName}`}>{trend}</span>
       </div>
-      <p className="mt-6 text-sm font-medium text-slate-500">{label}</p>
-      <p className="mt-1 text-3xl font-semibold tracking-normal text-pulse-text">{value}</p>
-      <p className="mt-3 text-xs leading-5 text-slate-500">{detail}</p>
+      <p className="mt-6 text-sm font-semibold text-slate-650 dark:text-slate-300">{label}</p>
+      <p className="mt-1 text-3xl font-semibold tracking-normal text-pulse-text dark:text-white">{value}</p>
+      <p className="mt-3 text-xs leading-5 font-medium text-slate-600 dark:text-slate-350">{detail}</p>
     </motion.article>
   );
 }

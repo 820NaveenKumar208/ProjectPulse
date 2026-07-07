@@ -1,12 +1,20 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy, Suspense } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 import { App } from '../App';
 import { ProtectedRoute } from '../components/ProtectedRoute';
+import { AppShell } from '../components/AppShell';
 import { AdminCheckPage } from '../pages/AdminCheckPage';
 import { ForgotPasswordPage } from '../pages/ForgotPasswordPage';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
+
+// Lazy load public & authenticated pages
+const LandingPage = lazy(async () => {
+  const module = await import('../pages/LandingPage');
+  return { default: module.LandingPage };
+});
 
 const DashboardPage = lazy(async () => {
   const module = await import('../pages/DashboardPage');
@@ -58,6 +66,44 @@ const ReportsPage = lazy(async () => {
   return { default: module.ReportsPage };
 });
 
+// Newly added visibility platform pages
+const ApprovalsPage = lazy(async () => {
+  const module = await import('../pages/ApprovalsPage');
+  return { default: module.ApprovalsPage };
+});
+
+const MilestonesPage = lazy(async () => {
+  const module = await import('../pages/MilestonesPage');
+  return { default: module.MilestonesPage };
+});
+
+const ProfilePage = lazy(async () => {
+  const module = await import('../pages/ProfilePage');
+  return { default: module.ProfilePage };
+});
+
+const SettingsPage = lazy(async () => {
+  const module = await import('../pages/SettingsPage');
+  return { default: module.SettingsPage };
+});
+
+const UsersPage = lazy(async () => {
+  const module = await import('../pages/UsersPage');
+  return { default: module.UsersPage };
+});
+
+const AllReportsPage = lazy(async () => {
+  const module = await import('../pages/AllReportsPage');
+  return { default: module.AllReportsPage };
+});
+
+// A clean loading fallback for router transitions
+const LoaderFallback = () => (
+  <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-[#0B1120]">
+    <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 dark:border-slate-800 border-t-pulse-primary" />
+  </div>
+);
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -65,7 +111,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate replace to="/app" />,
+        element: (
+          <Suspense fallback={<LoaderFallback />}>
+            <LandingPage />
+          </Suspense>
+        ),
       },
       {
         path: 'login',
@@ -83,130 +133,145 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           {
-            path: 'app',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <DashboardPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <ProjectsPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects/new',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <CreateProjectPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects/:projectId',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <ProjectDetailPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects/:projectId/edit',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <EditProjectPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects/:projectId/milestones/new',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <CreateMilestonePage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects/:projectId/milestones/:milestoneId',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <MilestoneDetailPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'app/notifications',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <NotificationsPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'projects/:projectId/reports',
-            element: (
-              <Suspense
-                fallback={
-                  <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                    <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-                  </main>
-                }
-              >
-                <ReportsPage />
-              </Suspense>
-            ),
+            element: <AppShell />,
+            children: [
+              {
+                path: 'dashboard',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <DashboardPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'app',
+                element: <Navigate replace to="/dashboard" />,
+              },
+              {
+                path: 'projects',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <ProjectsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'projects/new',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <CreateProjectPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'projects/:projectId',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <ProjectDetailPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'projects/:projectId/edit',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <EditProjectPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'projects/:projectId/milestones/new',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <CreateMilestonePage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'projects/:projectId/milestones/:milestoneId',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <MilestoneDetailPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'notifications',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <NotificationsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'app/notifications',
+                element: <Navigate replace to="/notifications" />,
+              },
+              {
+                path: 'projects/:projectId/reports',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <ReportsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'approvals',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <ApprovalsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'milestones',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <MilestonesPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'profile',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <ProfilePage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'settings',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <SettingsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'users',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <UsersPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'organizations',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <UsersPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'reports',
+                element: (
+                  <Suspense fallback={<LoaderFallback />}>
+                    <AllReportsPage />
+                  </Suspense>
+                ),
+              },
+            ],
           },
         ],
       },
@@ -223,13 +288,7 @@ export const router = createBrowserRouter([
         // Public share page — no auth required
         path: 'share/:token',
         element: (
-          <Suspense
-            fallback={
-              <main className="flex min-h-screen items-center justify-center bg-pulse-background">
-                <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-pulse-primary" />
-              </main>
-            }
-          >
+          <Suspense fallback={<LoaderFallback />}>
             <SharePage />
           </Suspense>
         ),

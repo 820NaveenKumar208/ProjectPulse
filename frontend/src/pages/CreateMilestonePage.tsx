@@ -24,7 +24,7 @@ export function CreateMilestonePage() {
     const checkProject = async () => {
       try {
         await projectAPI.getProject(accessToken, projectId);
-      } catch (err) {
+      } catch {
         setProjectExists(false);
       }
     };
@@ -59,14 +59,14 @@ export function CreateMilestonePage() {
         <motion.button
           whileHover={{ x: -4 }}
           onClick={() => navigate('/projects')}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-4"
+          className="flex items-center gap-2 text-violet-600 dark:text-violet-400 hover:text-violet-750 dark:hover:text-violet-300 font-medium mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Projects
         </motion.button>
-        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex gap-3">
-          <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-          <p className="text-yellow-700">Project not found. Please check the URL.</p>
+        <div className="p-4 bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-900/30 rounded-lg flex gap-3">
+          <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+          <p className="text-yellow-700 dark:text-yellow-400">Project not found. Please check the URL.</p>
         </div>
       </div>
     );
@@ -81,7 +81,7 @@ export function CreateMilestonePage() {
       <motion.button
         whileHover={{ x: -4 }}
         onClick={() => navigate(`/projects/${projectId}`)}
-        className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-8"
+        className="flex items-center gap-2 text-violet-600 dark:text-violet-400 hover:text-violet-750 dark:hover:text-violet-300 font-medium mb-8"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Project
@@ -91,10 +91,10 @@ export function CreateMilestonePage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex gap-3"
+          className="mb-6 p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 rounded-lg flex gap-3"
         >
-          <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-          <p className="text-red-700">Only managers can create milestones.</p>
+          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <p className="text-red-700 dark:text-red-450">Only managers can create milestones.</p>
         </motion.div>
       )}
 

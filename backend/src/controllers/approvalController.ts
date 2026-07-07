@@ -273,19 +273,32 @@ export const getPendingApprovals: RequestHandler = async (request, response) => 
     throw unauthorized();
   }
 
-  if (authRequest.user.role !== 'client') {
-    throw forbidden('Only clients can view pending approvals.');
+  let projectQuery: any = {};
+
+  if (authRequest.user.role === 'client') {
+    // Clients see approvals awaiting their response
+    projectQuery = { clientId: authRequest.user.id };
+  } else if (authRequest.user.role === 'manager') {
+    // Managers see approvals they've requested that are still pending
+    projectQuery = { managerId: authRequest.user.id };
+  } else if (authRequest.user.role === 'admin') {
+    // Admins see all pending approvals
+    projectQuery = {};
+  } else {
+    throw forbidden('Not authorized to view pending approvals.');
   }
 
-  // Get all projects where this user is the client
-  const projects = await ProjectModel.find({ clientId: authRequest.user.id }).lean();
+  const projects = await ProjectModel.find(projectQuery).lean();
   const projectIds = projects.map((p) => p._id.toString());
+  const projectsMap = new Map(projects.map((p) => [p._id.toString(), p]));
 
   // Get pending approvals for these projects
-  const records = await ApprovalModel.find({
-    projectId: { $in: projectIds },
-    status: 'pending',
-  })
+  const approvalQuery: any = { status: 'pending' };
+  if (projectIds.length > 0 && authRequest.user.role !== 'admin') {
+    approvalQuery.projectId = { $in: projectIds };
+  }
+
+  const records = await ApprovalModel.find(approvalQuery)
     .sort({ requestedAt: -1 })
     .lean();
 
@@ -304,6 +317,7 @@ export const getPendingApprovals: RequestHandler = async (request, response) => 
           projectId: milestonesMap.get(record.milestoneId)?.projectId,
         }
       : null,
+    projectName: projectsMap.get(record.projectId)?.name ?? 'Unknown Project',
   }));
 
   response.status(200).json({

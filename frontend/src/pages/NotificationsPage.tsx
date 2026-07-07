@@ -17,7 +17,6 @@ import {
   AlertCircle
 } from 'lucide-react';
 
-import { Header } from '../components/Header';
 import { notificationApi, type Notification } from '../lib/notificationApi';
 
 const notificationTypeConfigs = {
@@ -103,10 +102,7 @@ export function NotificationsPage() {
   });
 
   return (
-    <main className="min-h-screen bg-pulse-background text-pulse-text">
-      <Header />
-
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+    <div className="space-y-6 max-w-4xl mx-auto">
         <div className="flex flex-col gap-6">
           {/* Header Section */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -297,7 +293,6 @@ export function NotificationsPage() {
             )}
           </div>
         </div>
-      </div>
-    </main>
+    </div>
   );
 }

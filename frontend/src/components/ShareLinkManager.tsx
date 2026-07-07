@@ -82,12 +82,12 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
     project.shareExpiresAt && new Date(project.shareExpiresAt) < new Date();
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-6 shadow-sm">
       <div className="flex items-center gap-2">
         <Link2 className="h-4 w-4 text-pulse-primary" />
-        <h3 className="text-base font-semibold text-slate-900">Public Share Link</h3>
+        <h3 className="text-base font-semibold text-slate-900 dark:text-white">Public Share Link</h3>
       </div>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
         Share a read-only view of this project with external stakeholders — no login required.
       </p>
 
@@ -105,16 +105,16 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
       {!project.shareEnabled || !project.shareToken ? (
         /* Disabled state */
         <div className="mt-4">
-          <div className="flex items-center gap-2 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-3">
-            <Link2 className="h-4 w-4 text-slate-400" />
-            <span className="text-sm text-slate-400">No active share link</span>
+          <div className="flex items-center gap-2 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 px-4 py-3">
+            <Link2 className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <span className="text-sm text-slate-400 dark:text-slate-500">No active share link</span>
           </div>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleEnable}
             disabled={isLoading}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-pulse-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-50"
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700 disabled:opacity-50"
           >
             <Link2 className="h-4 w-4" />
             {isLoading ? 'Generating...' : 'Enable Share Link'}
@@ -124,21 +124,21 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
         /* Enabled state */
         <div className="mt-4 space-y-3">
           {isExpired && (
-            <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-700">
-              <AlertCircle className="h-4 w-4 shrink-0" />
+            <div className="flex items-center gap-2 rounded-xl border border-[#f59e0b] bg-[#2d1f00] px-3 py-2 text-sm text-[#fbbf24]">
+              <AlertCircle className="h-4 w-4 shrink-0 text-[#f59e0b]" />
               This link has expired.
             </div>
           )}
 
           {/* URL display */}
-          <div className="flex items-center gap-2 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <Link2 className="h-4 w-4 shrink-0 text-slate-400" />
-            <span className="flex-1 truncate text-sm text-slate-600">{shareUrl}</span>
+          <div className="flex items-center gap-2 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 px-3 py-2">
+            <Link2 className="h-4 w-4 shrink-0 text-slate-400 dark:text-slate-500" />
+            <span className="flex-1 truncate text-sm text-slate-600 dark:text-slate-350">{shareUrl}</span>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleCopy}
-              className="shrink-0 rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-200 hover:text-slate-600"
+              className="shrink-0 rounded-lg p-1.5 text-slate-400 dark:text-slate-550 transition hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-white"
               title="Copy link"
             >
               {copied ? (
@@ -150,7 +150,7 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
           </div>
 
           {project.shareExpiresAt && !isExpired && (
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 dark:text-slate-500">
               Expires {new Date(project.shareExpiresAt).toLocaleDateString()}
             </p>
           )}
@@ -162,7 +162,7 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
               whileTap={{ scale: 0.98 }}
               onClick={handleRotate}
               disabled={isLoading}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-50"
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
             >
               <RefreshCw className="h-3.5 w-3.5" />
               Regenerate
@@ -174,7 +174,7 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowDisableConfirm(true)}
                 disabled={isLoading}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-100 disabled:opacity-50"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-red-200 dark:border-red-950/20 bg-red-50 dark:bg-red-950/10 px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 transition hover:bg-red-100 dark:hover:bg-red-900/20 disabled:opacity-50"
               >
                 <X className="h-3.5 w-3.5" />
                 Disable
@@ -190,7 +190,7 @@ export function ShareLinkManager({ project, onProjectUpdate }: ShareLinkManagerP
                 </button>
                 <button
                   onClick={() => setShowDisableConfirm(false)}
-                  className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+                  className="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-350 transition hover:bg-slate-50 dark:hover:bg-slate-800"
                 >
                   Cancel
                 </button>

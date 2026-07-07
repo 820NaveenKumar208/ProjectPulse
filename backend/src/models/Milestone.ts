@@ -124,7 +124,5 @@ milestoneSchema.index({ projectId: 1, order: 1 });
 milestoneSchema.index({ projectId: 1, status: 1 });
 milestoneSchema.index({ projectId: 1, dueDate: 1 });
 milestoneSchema.index({ projectId: 1, approvalStatus: 1 });
-milestoneSchema.index({ dueDate: 1 });
-milestoneSchema.index({ approvalRequestedAt: 1 });
 
 export const MilestoneModel = model<MilestoneEntity>('Milestone', milestoneSchema);

@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, Clock, ChevronDown, ChevronUp, User, MessageSquare } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { CheckCircle2, XCircle, Clock, User, MessageSquare } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Milestone } from '../lib/milestoneApi';
 import type { ApprovalRecord } from '../lib/approvalApi';
@@ -98,14 +98,12 @@ export function ApprovalPanel({
   const approvalStatus = milestone.approvalStatus;
   const isPendingApproval = approvalStatus === 'pending_approval';
   const isApproved = approvalStatus === 'approved';
-  const isChangesRequested = approvalStatus === 'changes_requested';
   const canRequestApproval =
     isManager &&
     (milestone.status === 'in_progress' ||
       milestone.status === 'completed' ||
       milestone.status === 'changes_requested');
 
-  const pendingRecord = approvalHistory.find((r) => r.status === 'pending');
   const latestRecord = approvalHistory[0];
 
   return (
@@ -166,7 +164,7 @@ export function ApprovalPanel({
               whileTap={{ scale: 0.98 }}
               onClick={onRequestApproval}
               disabled={isSubmitting || isPendingApproval}
-              className="w-full rounded-xl bg-pulse-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-xl bg-pulse-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPendingApproval ? 'Approval Requested' : 'Request Client Approval'}
             </motion.button>
