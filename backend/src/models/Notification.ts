@@ -5,7 +5,9 @@ export type NotificationType =
   | 'APPROVAL_REQUESTED'
   | 'APPROVAL_APPROVED'
   | 'APPROVAL_REJECTED'
-  | 'REPORT_GENERATED';
+  | 'REPORT_GENERATED'
+  | 'system'
+  | 'action';
 
 export type NotificationEntity = {
   userId: string;
@@ -42,6 +44,8 @@ const notificationSchema = new Schema<NotificationEntity>(
         'APPROVAL_APPROVED',
         'APPROVAL_REJECTED',
         'REPORT_GENERATED',
+        'system',
+        'action',
       ],
     },
     title: {

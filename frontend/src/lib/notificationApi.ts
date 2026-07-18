@@ -8,7 +8,9 @@ export interface Notification {
     | 'APPROVAL_REQUESTED'
     | 'APPROVAL_APPROVED'
     | 'APPROVAL_REJECTED'
-    | 'REPORT_GENERATED';
+    | 'REPORT_GENERATED'
+    | 'system'
+    | 'action';
   title: string;
   message: string;
   read: boolean;
