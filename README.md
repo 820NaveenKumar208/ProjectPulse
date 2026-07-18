@@ -65,6 +65,29 @@ projectpulse/
 └── API_DOCUMENTATION.md   # Complete REST API reference
 ```
 
+## Screening 
+
+### 🚀 Landing Page
+
+A modern, responsive landing page introducing ProjectPulse, showcasing the platform's core value proposition—AI-powered client visibility, project transparency, milestone approvals, and automated reporting with a premium user experience.
+![alt text](<Screenshot 2026-07-07 133443.png>)
+---
+### 🛡️ Admin Dashboard
+
+The Admin Dashboard provides complete system control, allowing administrators to manage organizations, users, projects, approvals, reports, and platform-wide analytics through a centralized interface.
+![alt text](<Screenshot 2026-07-07 133605.png>)
+---
+### Client Dashboard
+
+The Client Dashboard offers real-time visibility into assigned projects, completion progress, downloadable reports, approval requests, and overall project health, ensuring complete transparency throughout the development lifecycle.
+
+![alt text](<Screenshot 2026-07-07 133656.png>)
+---
+### Client Approval Workflow
+
+The Approval Module enables clients to review completed milestones, request modifications, or approve deliverables with a single click, streamlining communication and accelerating project delivery.
+
+![alt text](<Screenshot 2026-07-07 133757.png>)
 ---
 
 ## ⚡ Quick Start
