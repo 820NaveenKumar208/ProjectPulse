@@ -70,11 +70,13 @@ projectpulse/
 ### 🚀 Landing Page
 
 A modern, responsive landing page introducing ProjectPulse, showcasing the platform's core value proposition—AI-powered client visibility, project transparency, milestone approvals, and automated reporting with a premium user experience.
+
 ![alt text](<Screenshot 2026-07-07 133443.png>)
 ---
 ### 🛡️ Admin Dashboard
 
 The Admin Dashboard provides complete system control, allowing administrators to manage organizations, users, projects, approvals, reports, and platform-wide analytics through a centralized interface.
+
 ![alt text](<Screenshot 2026-07-07 133605.png>)
 ---
 ### Client Dashboard
